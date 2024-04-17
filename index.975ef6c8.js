@@ -585,7 +585,13 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"8lqZg":[function(require,module,exports) {
 var _project = require("./project");
+var _task = require("./task");
+const addTaskForm = document.querySelector("#create-task-dialog");
 const createProjectBtn = document.querySelector("#create-project-btn");
+const newTaskBtn = document.querySelector("#new-task-btn");
+const closeFormBtn = document.querySelector("#close-form");
+const submitFormBtn = document.querySelector("#submit-form");
+// Add listener to the create project button
 createProjectBtn.addEventListener("click", (event)=>{
     event.preventDefault();
     const projectNameInput = document.querySelector("#project-name-input").value;
@@ -593,13 +599,43 @@ createProjectBtn.addEventListener("click", (event)=>{
     document.querySelector("#project-name-input").value = "";
     console.log((0, _project.projectBoard));
 });
+// Add listener to the new task button
+newTaskBtn.addEventListener("click", ()=>{
+    addTaskForm.showModal();
+});
+// Add listener to the close button
+closeFormBtn.addEventListener("click", ()=>{
+    addTaskForm.close();
+});
+// Add listener to the submit button 
+submitFormBtn.addEventListener("click", (event)=>{
+    event.preventDefault();
+    const nameInput = document.querySelector("#task-name").value;
+    const descriptionInput = document.querySelector("#task-description").value;
+    const dueDateInput = document.querySelector("#due-date").value;
+    const priorityInput = document.querySelector("#task-priority").value;
+    const projectNameTaskInput = document.querySelector("#project-name").value;
+    (0, _task.addTask)(nameInput, descriptionInput, dueDateInput, priorityInput, projectNameTaskInput);
+    const projectIndex = (0, _project.projectBoard).findIndex((project)=>project.name === projectNameTaskInput);
+    if (projectIndex !== -1) (0, _project.displayTasks)(projectIndex);
+    else console.error("Project not found!");
+    document.querySelector("#task-name").value = "";
+    document.querySelector("#task-description").value = "";
+    document.querySelector("#due-date").value = "";
+    document.querySelector("#task-priority").value = "";
+    document.querySelector("#project-name").value = "";
+    addTaskForm.close();
+});
 
-},{"./project":"8ulW8"}],"8ulW8":[function(require,module,exports) {
-// Create an empty array to store projects
+},{"./project":"8ulW8","./task":"8mW4a"}],"8ulW8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "projectBoard", ()=>projectBoard);
+// Function to create a new project
 parcelHelpers.export(exports, "createProject", ()=>createProject);
+// Display project tasks
+parcelHelpers.export(exports, "displayTasks", ()=>displayTasks);
+var _task = require("./task");
 const projectBoard = [];
 function createProject(projectNameInput) {
     const project = {
@@ -607,10 +643,82 @@ function createProject(projectNameInput) {
         tasks: []
     };
     projectBoard.push(project);
+    generateProjectBoard();
     console.log(project.name, "added successfully!");
 }
+// Function to put Projects into the UI
+function generateProjectBoard() {
+    const sidePanel = document.querySelector("#project-board");
+    sidePanel.textContent = "";
+    const dropDown = document.querySelector("#project-name");
+    dropDown.textContent = "";
+    projectBoard.forEach((project, index)=>{
+        const projectDiv = document.createElement("div");
+        const projectTab = document.createElement("div");
+        projectTab.textContent = project.name;
+        projectTab.addEventListener("click", ()=>{
+            displayTasks(index);
+        });
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", ()=>{
+            deleteProject(index);
+        });
+        projectDiv.appendChild(deleteButton);
+        projectDiv.appendChild(projectTab);
+        addProjectToForm(project, dropDown);
+        sidePanel.appendChild(projectDiv);
+    });
+}
+function deleteProject(index) {
+    projectBoard.splice(index, 1);
+    generateProjectBoard();
+}
+// Add projects to task form dropdown
+function addProjectToForm(project, dropDown) {
+    const option = document.createElement("option");
+    option.text = project.name;
+    dropDown.add(option);
+}
+function displayTasks(projectIndex) {
+    const mainPanel = document.querySelector("#main-content");
+    mainPanel.textContent = "";
+    const projectTitle = document.createElement("h1");
+    projectTitle.textContent = projectBoard[projectIndex].name;
+    mainPanel.appendChild(projectTitle);
+    const tasks = projectBoard[projectIndex].tasks;
+    tasks.forEach((task, index)=>{
+        const taskCard = document.createElement("div");
+        const taskTitle = document.createElement("h2");
+        taskTitle.textContent = `${task.name}`;
+        const taskDescription = document.createElement("p");
+        taskDescription.textContent = `${task.description}`;
+        const taskDueDate = document.createElement("h3");
+        taskDueDate.textContent = `${task.dueDate}`;
+        const taskPriority = document.createElement("h3");
+        taskPriority.textContent = `${task.priority}`;
+        const completeButton = document.createElement("button");
+        completeButton.textContent = "Complete";
+        completeButton.addEventListener("click", ()=>{
+            taskCard.classList.add("completed");
+        });
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", ()=>{
+            projectBoard[projectIndex].tasks.splice(index, 1);
+            displayTasks(projectIndex);
+        });
+        taskCard.appendChild(taskTitle);
+        taskCard.appendChild(taskDescription);
+        taskCard.appendChild(taskDueDate);
+        taskCard.appendChild(taskPriority);
+        taskCard.appendChild(deleteButton);
+        taskCard.dataset.bookIndex = projectBoard[projectIndex].tasks.length - 1;
+        mainPanel.appendChild(taskCard);
+    });
+}
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./task":"8mW4a"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -640,6 +748,25 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["farZc","8lqZg"], "8lqZg", "parcelRequiree5c7")
+},{}],"8mW4a":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addTask", ()=>addTask);
+var _project = require("./project");
+function addTask(nameInput, descriptionInput, dueDateInput, priorityInput, projectNameTaskInput) {
+    let project = (0, _project.projectBoard).find((p)=>p.name === projectNameTaskInput);
+    if (project) {
+        let task = {
+            name: nameInput,
+            description: descriptionInput,
+            dueDate: dueDateInput,
+            priority: priorityInput
+        };
+        console.log(task);
+        project.tasks.push(task);
+    }
+}
+
+},{"./project":"8ulW8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["farZc","8lqZg"], "8lqZg", "parcelRequiree5c7")
 
 //# sourceMappingURL=index.975ef6c8.js.map
