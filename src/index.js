@@ -1,7 +1,6 @@
 import { createProject, displayTasks } from "./project";
 import { projectBoard } from "./project";
 import { addTask } from "./task";
-import { displayTasks } from "./project";
 
 const addTaskForm = document.querySelector('#create-task-dialog');
 const createProjectBtn = document.querySelector('#create-project-btn');

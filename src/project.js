@@ -27,13 +27,16 @@ function generateProjectBoard() {
     
     projectBoard.forEach((project, index) => {
         const projectDiv = document.createElement('div');
+        projectDiv.classList.add('project-div');
         const projectTab = document.createElement('div');
+        projectTab.classList.add('project-tab');
         projectTab.textContent = project.name;
         projectTab.addEventListener("click", () => {
             displayTasks(index);
         });
 
         const deleteButton = document.createElement('button');
+        deleteButton.classList.add('project-delete-btn');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener("click", () => {
             deleteProject(index);
@@ -73,27 +76,34 @@ export function displayTasks(projectIndex) {
 
     tasks.forEach((task, index) => {
         const taskCard = document.createElement('div');
+        taskCard.classList.add('task-card');
         
         const taskTitle = document.createElement('h2');
         taskTitle.textContent = `${task.name}`;
+        taskTitle.classList.add('task-card-title');
 
         const taskDescription = document.createElement('p');
-        taskDescription.textContent = `${task.description}`;
+        taskDescription.textContent = 'Description: ' + `${task.description}`;
+        taskDescription.classList.add('task-card-description');
 
         const taskDueDate = document.createElement('h3');
-        taskDueDate.textContent = `${task.dueDate}`;
+        taskDueDate.textContent = 'Due by: ' + `${task.dueDate}`;
+        taskDueDate.classList.add('task-card-due-date');
 
         const taskPriority = document.createElement('h3');
-        taskPriority.textContent = `${task.priority}`;
+        taskPriority.textContent = 'Priority level: ' + `${task.priority}`;
+        taskPriority.classList.add('task-card-priority');
 
         const completeButton = document.createElement('button');
         completeButton.textContent = 'Complete';
+        completeButton.classList.add('task-complete-btn');
         completeButton.addEventListener('click', () => {
             taskCard.classList.add('completed');
         });
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('task-delete-btn');
         deleteButton.addEventListener('click', () => {
             projectBoard[projectIndex].tasks.splice(index, 1);
             displayTasks(projectIndex);
@@ -104,6 +114,7 @@ export function displayTasks(projectIndex) {
         taskCard.appendChild(taskDueDate);
         taskCard.appendChild(taskPriority);
         taskCard.appendChild(deleteButton);
+        taskCard.appendChild(completeButton);
 
         taskCard.dataset.bookIndex = projectBoard[projectIndex].tasks.length -1;
 

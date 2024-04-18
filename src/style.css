@@ -1,0 +1,303 @@
+@font-face {
+    font-family: 'platypi';
+    src: url(fonts/Platypi-Light.woff2);
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+button {
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    margin-top: 5svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+#side-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2svh;
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#new-task-btn {
+    font-size: 2rem;
+    padding: 0.5rem 3rem 0.5rem 3rem;
+    width: fit-content;
+    border: 0;
+    border-radius: 0.5rem;
+    background-color: rgb(230, 230, 230);
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.40);
+    cursor: pointer;
+}
+
+#create-project-form {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    border-radius: 2rem;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.40);
+}
+
+#create-project-btn {
+    grid-area: 1 / 4 / 2 / 6;
+    width: 7rem;
+    border-radius: 2rem;
+    padding: 0.5rem;
+    border: 0;
+    background-color: rgb(110, 109, 155);
+    color: white;
+    cursor: pointer;
+}
+
+#project-name-input {
+    grid-area: 1 / 1 / 2 / 5;
+    border-radius: 2rem;
+    border: 0;
+    background-color: rgb(220, 220, 255);
+    padding-left: 1rem;
+}
+
+#project-name-input:focus {
+    outline: 0;
+}
+
+#project-board {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.project-div {
+    display: flex;
+    gap: 8rem;
+    border-radius: 2rem;
+    background-color: rgb(215, 215, 215);
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.20);
+}
+
+.project-delete-btn {
+    border-radius: 2rem;
+    border: 0;
+}
+
+#main-content {
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+#create-task-dialog {
+    border: 0;
+    border-radius: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+}
+
+#add-task-form {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+label {
+    text-align: end;
+    margin-right: 1rem;
+}
+
+#add-task-form > input {
+    border-radius: 0.5rem;
+    border: solid 0.1rem rgb(200, 200, 200);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#add-task-form > input:focus {
+    outline: solid 0.1rem rgb(110, 109, 155);
+}
+
+#add-task-form > textarea {
+    border-radius: 0.5rem;
+    border: solid 0.1rem rgb(200, 200, 200);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#add-task-form > textarea:focus {
+    outline: solid 0.1rem rgb(110, 109, 155);
+}
+
+#add-task-form > select {
+    border-radius: 0.5rem;
+    border: solid 0.1rem rgb(200, 200, 200);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-family: 'platypi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#add-task-form > select:focus {
+    outline: solid 0.1rem rgb(110, 109, 155);
+}
+
+#project-name {
+    grid-column: 2 / 4;
+}
+
+#project-name-label {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#task-name {
+    grid-column: 2 / 4;
+    grid-row: 2;
+}
+
+#task-name-label {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#task-description {
+    grid-column: 2 / 4;
+    grid-row: 3 / 5;
+}
+
+#task-description-label {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+#due-date {
+    grid-column: 2 / 4;
+    grid-row: 5;
+}
+
+#due-date-label {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+#task-priority {
+    grid-column: 2 / 4;
+    grid-row: 6;
+}
+
+#task-priority-label {
+    grid-column: 1;
+    grid-row: 6;
+}
+
+.form-btn {
+    width: fit-content;
+    grid-row: 8 / 9;
+    justify-self: center;
+    border: 0;
+    color: white;
+    background-color: rgb(75, 75, 113);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.40);
+}
+
+.task-card {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 2fr repeat(2, 1fr);
+    margin-left: 1rem;
+    margin-right: 1rem;
+    gap: 0.5rem;
+    background-color: rgb(223, 215, 205);
+    padding: 0.75rem;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.20);
+    border-radius: 0.5rem;
+}
+
+.task-card > button {
+    justify-self: center;
+    width: fit-content;
+    border: 0;
+    color: white;
+    background-color: rgb(75, 75, 113);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.40);
+}
+
+.task-delete-btn {
+    grid-row: 1;
+    grid-column: 4;
+}
+
+.task-complete-btn {
+    grid-row: 1;
+    grid-column: 5;
+}
+
+.task-card-title {
+    grid-row: 1;
+    grid-column: 1 / 4;
+    font-size: 2rem;
+}
+
+.task-card-due-date {
+    grid-row: 2;
+    grid-column: 1 / 4;
+    font-size: 1.1rem;
+    align-self: flex-end;
+}
+
+.task-card-priority {
+    grid-row: 2;
+    grid-column: 4 / 6;
+    font-size: 1.1rem;
+    align-self: flex-end;
+}
+
+.task-card-description {
+    grid-row: 3;
+    grid-column: 1 / 6;
+}
+
+.completed {
+    text-decoration: line-through;
+    background-color: rgb(50, 50, 50);
+}
+
+.completed > button {
+    background-color: black;
+    color: grey;
+}
