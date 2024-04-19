@@ -1,6 +1,9 @@
 import { createProject, displayTasks } from "./project";
 import { projectBoard } from "./project";
+import { backupToLocalStorage } from "./storage";
 import { addTask } from "./task";
+import { generateProjectBoard } from "./project";
+import { loadStorage } from "./project";
 
 const addTaskForm = document.querySelector('#create-task-dialog');
 const createProjectBtn = document.querySelector('#create-project-btn');
@@ -11,14 +14,10 @@ const submitFormBtn = document.querySelector('#submit-form');
 // Add listener to the create project button
 createProjectBtn.addEventListener('click', (event) => {
     event.preventDefault();
-
     const projectNameInput = document.querySelector('#project-name-input').value;
-
     createProject(projectNameInput);
-
+    backupToLocalStorage();
     document.querySelector('#project-name-input').value = '';
-
-    console.log(projectBoard);
 });
 
 // Add listener to the new task button
@@ -43,8 +42,10 @@ submitFormBtn.addEventListener("click", (event) => {
 
     addTask(nameInput, descriptionInput, dueDateInput, priorityInput, projectNameTaskInput);
 
+    backupToLocalStorage();
+
     const projectIndex = projectBoard.findIndex(project => project.name === projectNameTaskInput);
-    
+
     if (projectIndex !== -1) {
         displayTasks(projectIndex);
     } else {
@@ -56,6 +57,8 @@ submitFormBtn.addEventListener("click", (event) => {
     document.querySelector('#due-date').value = '';
     document.querySelector('#task-priority').value = '';
     document.querySelector('#project-name').value = '';
-
+    
     addTaskForm.close();
 });
+
+loadStorage();

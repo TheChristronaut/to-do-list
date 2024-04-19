@@ -1,7 +1,7 @@
-import { deleteTask } from "./task";
+import { backupToLocalStorage } from "./storage";
 
 // Create an empty array to store projects
-export const projectBoard = [];
+export let projectBoard = [];
 
 // Function to create a new project
 export function createProject(projectNameInput) {
@@ -18,7 +18,7 @@ export function createProject(projectNameInput) {
 }
 
 // Function to put Projects into the UI
-function generateProjectBoard() {
+export function generateProjectBoard() {
     const sidePanel = document.querySelector('#project-board');
     sidePanel.textContent = '';
 
@@ -40,6 +40,8 @@ function generateProjectBoard() {
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener("click", () => {
             deleteProject(index);
+            backupToLocalStorage();
+            generateProjectBoard();
         });
 
         projectDiv.appendChild(deleteButton);
@@ -99,6 +101,7 @@ export function displayTasks(projectIndex) {
         completeButton.classList.add('task-complete-btn');
         completeButton.addEventListener('click', () => {
             taskCard.classList.add('completed');
+            backupToLocalStorage();
         });
 
         const deleteButton = document.createElement('button');
@@ -106,6 +109,7 @@ export function displayTasks(projectIndex) {
         deleteButton.classList.add('task-delete-btn');
         deleteButton.addEventListener('click', () => {
             projectBoard[projectIndex].tasks.splice(index, 1);
+            backupToLocalStorage();
             displayTasks(projectIndex);
         });
 
@@ -121,3 +125,12 @@ export function displayTasks(projectIndex) {
         mainPanel.appendChild(taskCard);
     });
 };
+
+// Load data on start
+export function loadStorage() {
+    const storedData = localStorage.getItem('projectBoard');
+    if (storedData) {
+        projectBoard = JSON.parse(storedData);
+        generateProjectBoard();
+    }
+}
